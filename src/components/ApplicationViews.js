@@ -5,6 +5,10 @@ import ComputerPage from './Computers/ComputerPage';
 import DepartmentPage from './Departments/DepartmentPage';
 import TrainingPage from './TrainingPrograms/TrainingPage';
 import TrainingAPIManager from '../modules/TrainingAPIManager';
+import TrainingNew from './TrainingPrograms/TrainingNew'
+import TrainingAddEmployee from './TrainingPrograms/TrainingAddEmployee'
+
+
 
 class ApplicationViews extends Component {
 	state = {
@@ -44,9 +48,23 @@ class ApplicationViews extends Component {
 					}}
 				/>
 				<Route
-					path="/training"
+					exact path="/training"
 					render={(props) => {
-						return <TrainingPage programs={this.state.programs} />;
+						return <TrainingPage {...props} programs={this.state.programs} />;
+					}}
+				/>
+                <Route
+					path="/training/new"
+					render={(props) => {
+						return <TrainingNew {...props} programs={this.state.programs}
+                         />;
+					}}
+				/>
+                <Route
+					path="/training/:programId(\d+)"
+					render={(props) => {
+						return <TrainingAddEmployee {...props} programs={this.state.programs}
+                        employees={this.state.employees} />;
 					}}
 				/>
 			</React.Fragment>

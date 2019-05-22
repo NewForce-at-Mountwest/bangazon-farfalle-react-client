@@ -8,7 +8,7 @@ import Moment from 'react-moment';
 export default class TrainingPage extends Component {
 
     state={
-        
+
     }
     
 
@@ -22,7 +22,11 @@ export default class TrainingPage extends Component {
 
 
         <h1>Training Programs</h1>
-        <button>Add Program</button>
+        <button className="btn btn-success"
+        onClick={() => {this.props.history.push("/training/new")}
+        }>
+        Add Program
+        </button>
        <div className="program-container">
                     {this.props.programs.map(program =>
                     <div key={program.id} className="card">
@@ -38,8 +42,8 @@ export default class TrainingPage extends Component {
                                     <li>{employee.firstName} {employee.lastName}</li>
                                     )}
                                 </ul>
-                                <button>Enroll Employee</button>
-                                {/* <Link className="nav-link" to={`/employees/${program.id}`}>Details</Link> */}
+                                <button className="btn btn-success"
+                                onClick={()=>{this.props.history.push(`/training/${program.id}`)}}>Enroll Employee</button>
 
 
                             </h5>
