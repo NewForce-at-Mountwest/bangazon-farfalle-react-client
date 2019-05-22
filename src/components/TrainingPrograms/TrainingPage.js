@@ -29,7 +29,10 @@ export default class TrainingPage extends Component {
         </button>
        <div className="program-container">
                     {this.props.programs.map(program =>
+                    <React.Fragment>
+                        
                     <div key={program.id} className="card">
+                    
                         <div className="card-body">
                             <h5 className="card-title">
                                 <img src="https://assets.zabbix.com/img/training-big.svg" className= "icon--training" />
@@ -42,14 +45,16 @@ export default class TrainingPage extends Component {
                                     <li>{employee.firstName} {employee.lastName}</li>
                                     )}
                                 </ul>
+                                
                                 <button className="btn btn-success"
                                 onClick={()=>{this.props.history.push(`/training/${program.id}`)}}>Enroll Employee</button>
+                                <span> {program.maxAttendees-program.employees.length} slots remaining</span>
 
 
                             </h5>
                         </div>
                     </div>
-                    )
+                    </React.Fragment>)
 
                     }</div>
         
