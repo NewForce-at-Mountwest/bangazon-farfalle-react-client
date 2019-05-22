@@ -25,6 +25,10 @@ class ApplicationViews extends Component {
 			.then(() => this.setState(newState));
 	}
 
+
+ //Write method to handle adding a training program to the database
+
+
 	render() {
 		return (
 			<React.Fragment>
