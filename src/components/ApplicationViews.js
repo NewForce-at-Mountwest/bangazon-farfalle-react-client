@@ -4,6 +4,10 @@ import EmployeePage from "./Employees/EmployeePage"
 import ComputerPage from "./Computers/ComputerPage"
 import DepartmentPage from "./Departments/DepartmentPage"
 import TrainingPage from "./TrainingPrograms/TrainingPage"
+import EmployeeAPIManager from '../modules/EmployeeAPIManger';
+import EmployeeEditForm from "./Employees/EmployeeEditForm";
+import NewEmployeeForm from "./Employees/NewEmployeeForm";
+
 
 class ApplicationViews extends Component {
 
@@ -14,14 +18,54 @@ class ApplicationViews extends Component {
         training: []
     }
 
+    componentDidMount(){
+        const newState = {};
+        EmployeeAPIManager.getAllEmployees()
+        .then(response => {
+            newState.employees = response;
+            this.setState(newState);
+        })
+    }
+
+
+
+    addNewEmployee = (employeeObject)=> {
+        const newState={};
+        EmployeeAPIManager.postNewEmployee(employeeObject)
+        .then(()=>
+            EmployeeAPIManager.getAllEmployees()
+        ).then(response=> {
+            newState.employees = response
+            this.setState(newState);
+        })
+    }
+
+
+    editEmployee = (employeeObject) => {
+        const newState = {};
+        EmployeeAPIManager.updateEmployee(employeeObject)
+        .then(()=> EmployeeAPIManager.getAllEmployees())
+        .then(response => {
+            newState.employees = response;
+            this.setState = newState;
+        })
+
+    }
+
 
 
  render() {
         return (
             <React.Fragment>
                 <Route exact path="/" render={(props) => {
-                    return <EmployeePage employees={this.state.employees} />
+                    return <EmployeePage {...props} employees={this.state.employees} />
                 }} />
+                <Route exact path="/employees/new" render={(props) => {
+                    return <NewEmployeeForm employees = {this.state.employees} addNewEmployee={this.addNewEmployee} {...props}/>
+                }} />
+                <Route exact path="/employees/:employeeId(\d+)/edit" render={(props) => {
+                    return <EmployeeEditForm employees={this.state.employees} {...props} editEmployee={this.editEmployee}/>
+                }}/>
                 <Route path="/computers" render={(props) => {
                     return <ComputerPage computers={this.state.computers} />
                 }} />
