@@ -8,15 +8,15 @@ export default {
   },
   getOne: id =>
     fetch(`${remoteURL}/computer/${id}`).then(computer => computer.json()),
-  put(editedComputer) {
-    return fetch(`${remoteURL}/computer/${editedComputer.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(editedComputer)
-    }).then(data => data.json());
-  },
+    put(editedComputer) {
+      return fetch(`${remoteURL}/computer/${editedComputer.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(editedComputer)
+      })
+    },
   postComputer(newComputer) {
     return fetch(`${remoteURL}/computer`, {
       method: "POST",
