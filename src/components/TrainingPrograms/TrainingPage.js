@@ -41,9 +41,10 @@ export default class TrainingPage extends Component {
                                 <Moment format="MM/DD/YY">{program.endDate}</Moment>)
 
                                 <ul className="employee-training-List">
-                                    {program.employees.map(employee=>
+                                    
+                                    {program.employees[0]!==null?program.employees.map(employee=>
                                     <li>{employee.firstName} {employee.lastName}</li>
-                                    )}
+                                    ):""}
                                 </ul>
                                 
                                 <button className="btn btn-success"

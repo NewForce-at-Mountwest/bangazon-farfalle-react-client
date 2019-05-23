@@ -5,10 +5,8 @@ import ComputerPage from './Computers/ComputerPage';
 import DepartmentPage from './Departments/DepartmentPage';
 import TrainingPage from './TrainingPrograms/TrainingPage';
 import TrainingAPIManager from '../modules/TrainingAPIManager';
-import TrainingNew from './TrainingPrograms/TrainingNew'
-import TrainingAddEmployee from './TrainingPrograms/TrainingAddEmployee'
-
-
+import TrainingNew from './TrainingPrograms/TrainingNew';
+import TrainingAddEmployee from './TrainingPrograms/TrainingAddEmployee';
 
 class ApplicationViews extends Component {
 	state = {
@@ -26,8 +24,13 @@ class ApplicationViews extends Component {
 	}
 
 
- //Write method to handle adding a training program to the database
+//  This method adds a new training program and then  updates state
 
+	AddTrainingProgram = (NewProgram) => {
+		TrainingAPIManager.postProgram(NewProgram)
+			.then(() => TrainingAPIManager.getAll())
+			.then((programs) => this.setState({ programs: programs }));
+	};
 
 	render() {
 		return (
@@ -52,23 +55,30 @@ class ApplicationViews extends Component {
 					}}
 				/>
 				<Route
-					exact path="/training"
+					exact
+					path="/training"
 					render={(props) => {
 						return <TrainingPage {...props} programs={this.state.programs} />;
 					}}
 				/>
-                <Route
+				<Route
 					path="/training/new"
 					render={(props) => {
-						return <TrainingNew {...props} programs={this.state.programs}
-                         />;
+						return <TrainingNew {...props} 
+						programs={this.state.programs} 
+						AddTrainingProgram={this.AddTrainingProgram}/>;
 					}}
 				/>
-                <Route
+				<Route
 					path="/training/:programId(\d+)"
 					render={(props) => {
-						return <TrainingAddEmployee {...props} programs={this.state.programs}
-                        employees={this.state.employees} />;
+						return (
+							<TrainingAddEmployee
+								{...props}
+								programs={this.state.programs}
+								employees={this.state.employees}
+							/>
+						);
 					}}
 				/>
 			</React.Fragment>

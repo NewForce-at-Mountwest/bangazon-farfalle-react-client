@@ -1,38 +1,49 @@
-const remoteURL = "https://localhost:5001/api";
+const remoteURL = "https://localhost:5001/api/trainingprogram";
 export default {
+
   getAll: () => {
-    return fetch(`${remoteURL}/trainingprogram`).then(programs =>
+    return fetch(`${remoteURL}`)
+    .then(programs =>
       programs.json()
     )
-  }
-}
+  },
 
-//   getSingle: id =>
-//     fetch(`${remoteURL}/trainingPrograms/${id}`).then(animal => animal.json()),
-//   put(editedAnimal) {
-//     return fetch(`${remoteURL}/animals/${editedAnimal.id}`, {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify(editedAnimal)
-//     }).then(data => data.json());
-//   },
-//   deleteAnimal: id => {
-//     return fetch(`http://localhost:5002/animals/${id}`, {
+  getSingle: id =>{
+    return fetch(`${remoteURL}/${id}`)
+    .then(program => program.json())
+    },
+
+    postProgram: newProgram => {
+    return fetch(`${remoteURL}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+                
+
+        
+      },
+      body: JSON.stringify(newProgram)
+    }).then(data => data.json());
+  },
+
+  putProgram: editedProgram => {
+    return fetch(`${remoteURL}/${editedProgram.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+        
+      },
+      body: JSON.stringify(editedProgram)
+    }).then(data => data.json());
+  }
+
+    
+//   deleteprogram: id => {
+//     return fetch(`${remoteURL}/${id}`, {
 //       method: "DELETE"
 //     })
-//       .then(() => fetch(`http://localhost:5002/animals`))
+//       .then(() => fetch(`${remoteURL}`))
 //       .then(e => e.json());
-//   },
-//   postAnimal(newAnimal) {
-//     return fetch(`${remoteURL}/animals`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify(newAnimal)
-//     }).then(data => data.json());
 //   }
-// }
-//
+
+}

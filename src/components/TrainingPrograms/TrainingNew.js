@@ -23,15 +23,14 @@ export default class TrainingNew extends Component {
     };
 
     handleSubmit = evt =>{
-const TrainingObject ={
-    Name = this.state.Name,
-    StartDate=this.state.StartDate,
-    EndDate = this.state.EndDate,
-    MaxAttendees=this.state.MaxAttendees
+    const TrainingObject ={
+    name: this.state.name,
+    startDate:this.state.startDate,
+    endDate: this.state.endDate,
+    maxAttendees: this.state.maxAttendees
 
 }
-/// Add Training program to database using API POST in Application views
-
+    this.props.AddTrainingProgram(TrainingObject);
     }
     
 
@@ -46,7 +45,6 @@ const TrainingObject ={
 
         <h1>Training Programs</h1>
 
-         <form className="TrainingForm">
                     <div className="form-group">
                         <label htmlFor="Name">Program Name</label>
                         <input
@@ -54,29 +52,29 @@ const TrainingObject ={
                             required
                             className="form-control"
                             onChange={this.handleFieldChange}
-                            id="Name"
+                            id="name"
                             placeholder="Program Name"
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="StartDate">Start Date</label>
                         <input
-                            type="text"
+                            type="date"
                             required
                             className="form-control"
                             onChange={this.handleFieldChange}
-                            id="StartDate"
+                            id="startDate"
                             placeholder="Start Date"
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="EndDate">End Date</label>
                         <input
-                            type="text"
+                            type="date"
                             required
                             className="form-control"
                             onChange={this.handleFieldChange}
-                            id="EndDate"
+                            id="endDate"
                             placeholder="End Date"
                         />
                     </div>
@@ -87,13 +85,13 @@ const TrainingObject ={
                             required
                             className="form-control"
                             onChange={this.handleFieldChange}
-                            id="MaxAttendees"
+                            id="maxAttendees"
                             placeholder="Max Attendees"
                         />
                     </div>
-                            <button>Add Program</button>
+                            <button className ="btn btn-success"
+                            onClick={this.handleSubmit}>Add Program</button>
 
-                    </form>
        
             
                                                     
