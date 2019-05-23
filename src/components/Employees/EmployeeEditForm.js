@@ -20,13 +20,20 @@ class EmployeeEditForm extends Component {
         this.setState(stateToChange);
       };
 
+      toggleChange = () => {
+        this.setState({
+          isSuperVisor: !this.state.isSuperVisor
+        });
+      };
+
+
     updateEmployee = () => {
         const employeeObject = {
             id: this.state.id,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             departmentId: this.state.departmentId,
-            isSuperVisor: this.state.isSupervisor
+            isSuperVisor: this.state.isSuperVisor
         }
 
         this.props.editEmployee(employeeObject);
@@ -67,11 +74,11 @@ class EmployeeEditForm extends Component {
                     <input  className="form-control" onChange={this.handleFieldChange} value={this.state.departmentId} id="departmentId" placeholder="Department Id"/>
                 </div>
                 <div className="form-group form-check">
-                    <input type="checkbox" className="form-check-input" id="isSupervisor"/>
-                    <label className="form-check-label" onChange={this.handleFieldChange} defaultChecked={this.state.isSuperVisor === true ? "checked" : ""}>Supervisor</label>
+                    <input type="checkbox" className="form-check-input" id="isSuperVisor" onChange={this.toggleChange} checked={this.state.isSuperVisor} />
+                    <label className="form-check-label">Supervisor</label>
                 </div>
 
-                <button type="submit" className="btn btn-primary" onClick= {this.updateEmployee}>Submit</button>
+                <button type="submit" className="btn btn-primary" onClick={this.updateEmployee}>Submit</button>
                 </div>
         )
     }
