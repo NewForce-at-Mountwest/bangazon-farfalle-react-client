@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import "./Training.css"
-import Moment from 'react-moment';
 
 
 

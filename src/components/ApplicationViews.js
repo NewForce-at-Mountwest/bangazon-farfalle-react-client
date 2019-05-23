@@ -21,6 +21,8 @@ class ApplicationViews extends Component {
 		TrainingAPIManager.getAll()
 			.then((programs) => (newState.programs = programs))
 			.then(() => this.setState(newState));
+	
+	
 	}
 
 
@@ -31,6 +33,14 @@ class ApplicationViews extends Component {
 			.then(() => TrainingAPIManager.getAll())
 			.then((programs) => this.setState({ programs: programs }));
 	};
+
+	AddEmployeeToTrainingProgram = (employeeTraining) =>{
+	TrainingAPIManager.postEmployeeToTraining(employeeTraining)
+			.then(() => TrainingAPIManager.getAll())
+			.then((programs) => this.setState({ programs: programs }));
+	};
+
+	
 
 	render() {
 		return (
@@ -77,6 +87,7 @@ class ApplicationViews extends Component {
 								{...props}
 								programs={this.state.programs}
 								employees={this.state.employees}
+								AddEmployeeToTrainingProgram = {this.AddEmployeeToTrainingProgram}
 							/>
 						);
 					}}
