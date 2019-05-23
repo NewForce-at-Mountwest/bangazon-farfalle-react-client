@@ -27,14 +27,14 @@ import { pathToFileURL } from "url";
         },
 
         updateEmployee: function(employeeObject){
-            return fetch(`https://localhost:5001/api/employee/${employeeObject.Id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(employeeObject)
-            })
-            .then(r=>r.json())
+            return fetch(`https://localhost:5001/api/employee/${employeeObject.id}`, {
+
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(employeeObject)
+                })
         }
         }
 

@@ -47,7 +47,7 @@ class ApplicationViews extends Component {
         .then(()=> EmployeeAPIManager.getAllEmployees())
         .then(response => {
             newState.employees = response;
-            this.setState = newState;
+            this.setState(newState);
         })
 
     }

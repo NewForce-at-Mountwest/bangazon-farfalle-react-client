@@ -8,7 +8,7 @@ class EmployeeEditForm extends Component {
         firstName: "",
         lastName: "",
         departmentId: "",
-        isSupervisor: false
+        isSuperVisor: false
     }
 
 
@@ -30,6 +30,7 @@ class EmployeeEditForm extends Component {
         }
 
         this.props.editEmployee(employeeObject);
+        console.log(`this is the employee object id ${employeeObject.id}`);
         this.props.history.push("/");
     }
 
@@ -42,7 +43,7 @@ class EmployeeEditForm extends Component {
                 firstName: employee.firstName,
                 lastName: employee.lastName,
                 departmentId: employee.departmentId,
-                isSupervisor: employee.isSupervisor
+                isSuperVisor: employee.isSuperVisor
             })
         })
     }
@@ -63,11 +64,11 @@ class EmployeeEditForm extends Component {
                 </div>
                 <div className="form-group">
                     <label >Department Id</label>
-                    <input  className="form-control" onChange={this.handleFieldChange} id="departmentId" placeholder="Department Id"/>
+                    <input  className="form-control" onChange={this.handleFieldChange} value={this.state.departmentId} id="departmentId" placeholder="Department Id"/>
                 </div>
                 <div className="form-group form-check">
                     <input type="checkbox" className="form-check-input" id="isSupervisor"/>
-                    <label className="form-check-label" onChange={this.handleFieldChange} >Supervisor</label>
+                    <label className="form-check-label" onChange={this.handleFieldChange} defaultChecked={this.state.isSuperVisor === true ? "checked" : ""}>Supervisor</label>
                 </div>
 
                 <button type="submit" className="btn btn-primary" onClick= {this.updateEmployee}>Submit</button>
