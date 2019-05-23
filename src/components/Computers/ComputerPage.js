@@ -27,8 +27,8 @@ export default class ComputerPage extends Component {
         </div>
         {this.props.computers.map(singleComputer => {
           return (
-            <section>
-            <div key={singleComputer.id} className = "card card-body">
+            <section key={singleComputer.id}>
+            <div  className = "card card-body">
               <p>{singleComputer.make}</p>
               <p>{singleComputer.manufacturer}</p>
               <p>{singleComputer.purchaseDate}</p>

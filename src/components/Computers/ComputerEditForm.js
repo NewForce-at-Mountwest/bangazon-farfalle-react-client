@@ -23,7 +23,8 @@ export default class computerEditForm extends Component {
         id:  this.props.match.params.computerId,
         make: this.state.make,
         manufacturer: this.state.manufacturer,
-        purchaseDate: this.state.purchaseDate
+        purchaseDate: this.state.purchaseDate,
+        decomissionDate: this.state.decomissionDate
       };
 
       this.props
@@ -47,7 +48,7 @@ export default class computerEditForm extends Component {
       <React.Fragment>
         <form className="computerForm">
           <div className="form-group">
-            <label htmlFor="computerMake">computer make</label>
+            <label htmlFor="computerMake">Computer Make</label>
             <input
               type="text"
               required
@@ -68,6 +69,7 @@ export default class computerEditForm extends Component {
               value={this.state.purchaseDate}
             />
           </div>
+
           <div className="form-group">
             <label htmlFor="manufacturer">Update manufacturer</label>
             <input
