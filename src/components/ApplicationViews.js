@@ -7,6 +7,10 @@ import TrainingPage from './TrainingPrograms/TrainingPage';
 import TrainingAPIManager from '../modules/TrainingAPIManager';
 import TrainingNew from './TrainingPrograms/TrainingNew';
 import TrainingAddEmployee from './TrainingPrograms/TrainingAddEmployee';
+import EmployeeAPIManager from '../modules/EmployeeAPIManger';
+import EmployeeEditForm from "./Employees/EmployeeEditForm";
+import NewEmployeeForm from "./Employees/NewEmployeeForm";
+
 
 class ApplicationViews extends Component {
 	state = {
@@ -20,10 +24,13 @@ class ApplicationViews extends Component {
 		const newState = {};
 		TrainingAPIManager.getAll()
 			.then((programs) => (newState.programs = programs))
+			 .then(EmployeeAPIManager.getAllEmployees())
+        .then(response => {
+            newState.employees = response})
 			.then(() => this.setState(newState));
-	
-	
 	}
+	
+
 
 
 //  This method adds a new training program and then  updates state
@@ -41,17 +48,45 @@ class ApplicationViews extends Component {
 	};
 
 	
+    addNewEmployee = (employeeObject)=> {
+        const newState={};
+        EmployeeAPIManager.postNewEmployee(employeeObject)
+        .then(()=>
+            EmployeeAPIManager.getAllEmployees()
+        ).then(response=> {
+            newState.employees = response
+            this.setState(newState);
+        })
+    }
+
+
+    editEmployee = (employeeObject) => {
+        const newState = {};
+        EmployeeAPIManager.updateEmployee(employeeObject)
+        .then(()=> EmployeeAPIManager.getAllEmployees())
+        .then(response => {
+            newState.employees = response;
+            this.setState(newState);
+        })
+
+    }
+
+	
 
 	render() {
 		return (
 			<React.Fragment>
 				<Route
-					exact
-					path="/"
-					render={(props) => {
-						return <EmployeePage employees={this.state.employees} />;
-					}}
-				/>
+					exact path="/" render={(props) => {
+                    return <EmployeePage {...props} employees={this.state.employees} />
+                }} />
+                <Route exact path="/employees/new" render={(props) => {
+                    return <NewEmployeeForm employees = {this.state.employees} addNewEmployee={this.addNewEmployee} {...props}/>
+                }} />
+                <Route exact path="/employees/:employeeId(\d+)/edit" render={(props) => {
+                    return <EmployeeEditForm employees={this.state.employees} {...props} editEmployee={this.editEmployee}/>
+                }}/>
+				
 				<Route
 					path="/computers"
 					render={(props) => {
@@ -95,6 +130,6 @@ class ApplicationViews extends Component {
 			</React.Fragment>
 		);
 	}
-}
 
+}
 export default ApplicationViews;
