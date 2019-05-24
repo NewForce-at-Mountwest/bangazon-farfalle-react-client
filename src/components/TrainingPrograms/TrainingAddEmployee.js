@@ -1,7 +1,12 @@
+//******************************************************************************//
+// This Allows you to add another employee to the training program
+//By Sydney Wait
+//******************************************************************************//
+
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Training.css';
-import Moment from 'react-moment';
+import TrainingAPIManager from "../../modules/TrainingAPIManager"
 
 export default class TrainingAddEmployee extends Component {
 	state = {
@@ -15,9 +20,10 @@ export default class TrainingAddEmployee extends Component {
 
 		const CurrentProgramId = parseInt(this.props.match.params.programId);
 		newState.trainingProgramId = CurrentProgramId;
-		const currentProgram = this.props.programs.find((program) => program.id = this.props.match.params.programId);
-        newState.currentProgram=currentProgram
-        this.setState(newState);
+		TrainingAPIManager.getSingle(CurrentProgramId)
+		.then((currentProgram)=> {
+		newState.currentProgram = currentProgram
+		        this.setState(newState)})    
 
 	}
 
@@ -30,10 +36,11 @@ export default class TrainingAddEmployee extends Component {
 
 	handleSubmit = (evt) => {
 		const EmployeeTraining = {
-			employeeId: this.state.employeeId,
+			employeeId: parseInt(this.state.employeeId),
 			trainingProgramId: this.state.trainingProgramId
 		};
 		this.props.AddEmployeeToTrainingProgram(EmployeeTraining);
+		this.props.history.push("/training")
 	};
 
 	render() {
@@ -51,19 +58,22 @@ export default class TrainingAddEmployee extends Component {
 					<label htmlFor="Employee" />
 					<select
 						defaultValue=""
-						name="EmployeeId"
-						id="EmployeeId"
+						name="employeeId"
+						id="employeeId"
 						onChange={this.handleFieldChange}
-						value={this.state.EmployeeId}
+						value={this.state.employeeId}
 					>
 						<option value="">Select an Employee</option>
 						{this.props.employees.map((e) => (
 							<option key={e.id} id={e.id} value={e.id}>
-								{e.name}
+								{e.firstName} {e.lastName}
 							</option>
 						))}
 					</select>
 				</div>
+				<button className ="btn btn-success"
+				onClick = {this.handleSubmit}>Submit</button>
+
 				<Link className="nav-link" to={`/training`}>
 					Back to Training Page
 				</Link>

@@ -28,10 +28,10 @@ export default class TrainingNew extends Component {
     endDate: this.state.endDate,
     maxAttendees: this.state.maxAttendees
 
-}
-    this.props.AddTrainingProgram(TrainingObject);
     }
-    
+    this.props.AddTrainingProgram(TrainingObject);
+    this.props.history.push("/training")
+    }   
 
     
     

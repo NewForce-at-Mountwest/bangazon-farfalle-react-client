@@ -24,7 +24,7 @@ export default {
     }).then(data => data.json());
   },
 
-  postEmployee: newEmployeeTraining => {
+  postEmployeeToTraining: newEmployeeTraining => {
     return fetch(`${remoteURL2}`, {
       method: "POST",
       headers: {
