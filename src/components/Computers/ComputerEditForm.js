@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import "./Computer.css"
 import ComputerAPI from "../../modules/ComputerAPI";
 
+//this is the edit form for computers, which should autopopulate all fields(minus the calendar, will figure out later), which allows a user to edit properties of a computer
+
+//by Connor FitzGerald
+
 export default class computerEditForm extends Component {
   state = {
     make: "",

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import "./Computer.css";
 
+//this is the form to add a new computer
+
+//connor fitzgerald
 export default class ComputerForm extends Component {
   state = {
     manufacturer: "",

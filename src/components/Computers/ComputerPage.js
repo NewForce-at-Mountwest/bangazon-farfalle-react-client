@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import "./Computer.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 
+//this is the list of computers, with buttons to edit a specific computer and an add new button
+
+//connor fitzgerald
+
 export default class ComputerPage extends Component {
     state = {
         employees:[] ,
