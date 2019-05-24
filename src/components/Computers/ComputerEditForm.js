@@ -70,7 +70,8 @@ export default class computerEditForm extends Component {
               className="form-control"
               onChange={this.handleFieldChange}
               id="purchaseDate"
-              value={this.state.purchaseDate}
+                        ///SYDNEY IS SMART V V V
+              value= {this.state.purchaseDate.split("T")[0]}
             />
           </div>
 

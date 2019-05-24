@@ -10,7 +10,6 @@ export default class ComputerForm extends Component {
     make: "",
     purchaseDate: "",
     decomissionDate: ""
-
   };
 
   handleFieldChange = evt => {
@@ -21,7 +20,6 @@ export default class ComputerForm extends Component {
 
   constructNewComputer = evt => {
     evt.preventDefault();
-
       const computer = {
         make: this.state.make,
         manufacturer: this.state.manufacturer,

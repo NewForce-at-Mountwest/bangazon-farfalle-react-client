@@ -35,7 +35,7 @@ export default class ComputerPage extends Component {
             <div  className = "card card-body computerCard">
               <p>{singleComputer.make}</p>
               <p>{singleComputer.manufacturer}</p>
-              <p>{singleComputer.purchaseDate}</p>
+              <p>{singleComputer.purchaseDate.split("T")[0]}</p>
               <button className ="btn btn-success" onClick={() => {
               this.props.history.push(`/computers/${singleComputer.id}/edit`);
             }}>Edit</button>
