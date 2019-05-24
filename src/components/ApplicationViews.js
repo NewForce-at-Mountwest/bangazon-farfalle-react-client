@@ -11,6 +11,10 @@ import TrainingEditForm from './TrainingPrograms/TrainingEditForm';
 import EmployeeAPIManager from '../modules/EmployeeAPIManger';
 import EmployeeEditForm from './Employees/EmployeeEditForm';
 import NewEmployeeForm from './Employees/NewEmployeeForm';
+import ComputerAPI from '../modules/ComputerAPI';
+import ComputerForm from '../components/Computers/ComputerForm'
+import ComputerEditForm from '../components/Computers/ComputerEditForm'
+
 
 class ApplicationViews extends Component {
 	state = {
@@ -20,16 +24,25 @@ class ApplicationViews extends Component {
 		programs: []
 	};
 
-	componentDidMount() {
-		const newState = {};
-		TrainingAPIManager.getAll()
-		.then((programs) => (newState.programs = programs))
-		.then(EmployeeAPIManager.getAllEmployees())
-			.then((response) => {
-				newState.employees = response;
-				this.setState(newState)
-		})
-	}
+
+
+  componentDidMount() {
+        const newState = {};
+        EmployeeAPIManager.getAllEmployees()
+        .then(response => (newState.employees = response))
+        .then(ComputerAPI.getAll)
+        .then(computers => (newState.computers = computers))
+		.then(TrainingAPIManager.getAll)
+		.then((programs) => 
+			{
+			 newState.programs = programs
+			 this.setState(newState)
+			 })
+			
+			}
+      
+
+
 
 	//  This method adds a new training program and then  updates state
 
@@ -38,6 +51,7 @@ class ApplicationViews extends Component {
 			.then(() => TrainingAPIManager.getAll())
 			.then((programs) => this.setState({ programs: programs }));
 	};
+
 
 	EditTrainingProgram = (editedProgram) => {
 		TrainingAPIManager.putProgram(editedProgram)
@@ -60,7 +74,7 @@ class ApplicationViews extends Component {
 				this.setState(newState);
 			});
 	};
-
+	
 	editEmployee = (employeeObject) => {
 		const newState = {};
 		EmployeeAPIManager.updateEmployee(employeeObject)
@@ -70,6 +84,24 @@ class ApplicationViews extends Component {
 				this.setState(newState);
 			});
 	};
+
+	 updateComputer = editedComputerObject => {
+      return ComputerAPI.put(editedComputerObject)
+        .then(() => ComputerAPI.getAll())
+        .then(computers => {
+          this.setState({
+            computers: computers
+          });
+        });
+    };
+	addComputer = computerObject =>
+      ComputerAPI.postComputer(computerObject)
+        .then(() => ComputerAPI.getAll())
+        .then(computers =>
+          this.setState({
+            computers: computers
+          })
+        );
 
 	render() {
 		return (
@@ -108,12 +140,21 @@ class ApplicationViews extends Component {
 					}}
 				/>
 
-				<Route
-					path="/computers"
-					render={(props) => {
-						return <ComputerPage computers={this.state.computers} />;
-					}}
-				/>
+				<Route exact path="/computers" render={(props) => {
+                    return <ComputerPage {...props}
+                    updateComputer={this.updateComputer}
+                    computers={this.state.computers} />
+                }} />
+				   <Route exact path="/computers/new" render={props => {
+            			return <ComputerForm {...props}
+							addComputer={this.addComputer}
+							computers={this.state.computers}/>
+                }}/>
+                 <Route exact path="/computers/:computerId(\d+)/edit" render={props => {
+						return <ComputerEditForm {...props}
+							updateComputer={this.updateComputer}
+							computers={this.state.computers}/>
+                }}/>
 				<Route
 					path="/departments"
 					render={(props) => {
@@ -167,5 +208,8 @@ class ApplicationViews extends Component {
 			</React.Fragment>
 		);
 	}
+
+   
+
 }
 export default ApplicationViews;
