@@ -46,6 +46,10 @@ export default class TrainingPage extends Component {
                                     ):""}
                                 </ul>
                                 
+                                <button
+                                className="btn btn-primary"
+                                onClick ={()=>{this.props.history.push(`/training/${program.id}/edit`)}}>Edit</button>
+
                                 <button className="btn btn-success"
                                 onClick={()=>{this.props.history.push(`/training/${program.id}`)}}>Enroll Employee</button>
                                 <span> {program.maxAttendees-program.employees.length} slots remaining</span>

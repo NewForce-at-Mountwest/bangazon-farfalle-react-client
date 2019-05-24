@@ -7,6 +7,7 @@ import TrainingPage from './TrainingPrograms/TrainingPage';
 import TrainingAPIManager from '../modules/TrainingAPIManager';
 import TrainingNew from './TrainingPrograms/TrainingNew';
 import TrainingAddEmployee from './TrainingPrograms/TrainingAddEmployee';
+import TrainingEditForm from './TrainingPrograms/TrainingEditForm';
 import EmployeeAPIManager from '../modules/EmployeeAPIManger';
 import EmployeeEditForm from './Employees/EmployeeEditForm';
 import NewEmployeeForm from './Employees/NewEmployeeForm';
@@ -21,12 +22,13 @@ class ApplicationViews extends Component {
 
 	componentDidMount() {
 		const newState = {};
-		TrainingAPIManager.getAll().then((programs) => (newState.programs = programs));
-		EmployeeAPIManager.getAllEmployees()
+		TrainingAPIManager.getAll()
+		.then((programs) => (newState.programs = programs))
+		.then(EmployeeAPIManager.getAllEmployees())
 			.then((response) => {
 				newState.employees = response;
-			})
-			.then(() => this.setState(newState));
+				this.setState(newState)
+		})
 	}
 
 	//  This method adds a new training program and then  updates state
@@ -35,6 +37,12 @@ class ApplicationViews extends Component {
 		TrainingAPIManager.postProgram(NewProgram)
 			.then(() => TrainingAPIManager.getAll())
 			.then((programs) => this.setState({ programs: programs }));
+	};
+
+	EditTrainingProgram = (editedProgram) => {
+		TrainingAPIManager.putProgram(editedProgram)
+		.then(()=>TrainingAPIManager.getAll())
+		.then((programs) => this.setState({programs:programs}))
 	};
 
 	AddEmployeeToTrainingProgram = (employeeTraining) => {
@@ -120,7 +128,7 @@ class ApplicationViews extends Component {
 					}}
 				/>
 				<Route
-					exact path="/training/new"
+					 exact path="/training/new"
 					render={(props) => {
 						return (
 							<TrainingNew
@@ -140,6 +148,18 @@ class ApplicationViews extends Component {
 								programs={this.state.programs}
 								employees={this.state.employees}
 								AddEmployeeToTrainingProgram={this.AddEmployeeToTrainingProgram}
+							/>
+						);
+					}}
+				/>
+					<Route
+					exact path="/training/:programId(\d+)/edit"
+					render={(props) => {
+						return (
+							<TrainingEditForm
+								{...props}
+								programs={this.state.programs}
+								EditTrainingProgram={this.EditTrainingProgram}
 							/>
 						);
 					}}

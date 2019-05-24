@@ -1,23 +1,44 @@
 //******************************************************************************//
-// This Allows you to create a new training program
+// This Allows you to edit the training program information
 //By Sydney Wait
 //******************************************************************************//
 
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import "./Training.css"
+import TrainingAPIManager from "../../modules/TrainingAPIManager"
 
 
 
-export default class TrainingNew extends Component {
+
+export default class TrainingEditForm extends Component {
 
     state={
-        Name:"",
-        StartDate:"",
-        EndDate:"",
-        MaxAttendees:""
+        id: null,
+        name:"",
+        startDate:"",
+        endDate:"",
+        maxAttendees:""
                 
     }
+
+    	componentDidMount() {
+		let newState = [];
+
+		const CurrentProgramId = parseInt(this.props.match.params.programId);
+		newState.trainingProgramId = CurrentProgramId;
+		TrainingAPIManager.getSingle(CurrentProgramId)
+		.then((currentProgram)=> {
+            newState={
+            id: currentProgram.id,
+		    name: currentProgram.name,
+            startDate: currentProgram.startDate.split("T")[0],
+            endDate: currentProgram.endDate.split("T")[0],
+            maxAttendees: currentProgram.maxAttendees
+            }
+		        this.setState(newState)})    
+
+	}
 
       // Update state whenever an input field is edited
     handleFieldChange = evt => {
@@ -28,13 +49,14 @@ export default class TrainingNew extends Component {
 
     handleSubmit = evt =>{
     const TrainingObject ={
+    id: this.state.id,
     name: this.state.name,
     startDate:this.state.startDate,
     endDate: this.state.endDate,
     maxAttendees: this.state.maxAttendees
 
     }
-    this.props.AddTrainingProgram(TrainingObject);
+    this.props.EditTrainingProgram(TrainingObject);
     this.props.history.push("/training")
     }   
 
@@ -57,6 +79,7 @@ export default class TrainingNew extends Component {
                             className="form-control"
                             onChange={this.handleFieldChange}
                             id="name"
+                            value={this.state.name}
                             placeholder="Program Name"
                         />
                     </div>
@@ -68,6 +91,7 @@ export default class TrainingNew extends Component {
                             className="form-control"
                             onChange={this.handleFieldChange}
                             id="startDate"
+                            value={this.state.startDate}
                             placeholder="Start Date"
                         />
                     </div>
@@ -79,6 +103,7 @@ export default class TrainingNew extends Component {
                             className="form-control"
                             onChange={this.handleFieldChange}
                             id="endDate"
+                            value={this.state.endDate}
                             placeholder="End Date"
                         />
                     </div>
@@ -90,11 +115,12 @@ export default class TrainingNew extends Component {
                             className="form-control"
                             onChange={this.handleFieldChange}
                             id="maxAttendees"
+                            value={this.state.maxAttendees}
                             placeholder="Max Attendees"
                         />
                     </div>
                             <button className ="btn btn-success"
-                            onClick={this.handleSubmit}>Add Program</button>
+                            onClick={this.handleSubmit}>Submit</button>
 
        
             

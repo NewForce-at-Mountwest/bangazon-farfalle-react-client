@@ -42,7 +42,7 @@ export default {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(editedProgram)
-    }).then(data => data.json());
+    })
   }
 
     
