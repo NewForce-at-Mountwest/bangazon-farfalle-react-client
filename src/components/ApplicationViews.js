@@ -7,6 +7,9 @@ import TrainingPage from "./TrainingPrograms/TrainingPage"
 import ComputerAPI from '../modules/ComputerAPI';
 import ComputerForm from '../components/Computers/ComputerForm'
 import ComputerEditForm from '../components/Computers/ComputerEditForm'
+import EmployeeAPIManager from '../modules/EmployeeAPIManger';
+import EmployeeEditForm from "./Employees/EmployeeEditForm";
+import NewEmployeeForm from "./Employees/NewEmployeeForm";
 class ApplicationViews extends Component {
 
   state = {
@@ -16,11 +19,14 @@ class ApplicationViews extends Component {
         training: []
     }
 
-    componentDidMount() {
+
+  componentDidMount() {
         const newState = {};
-        ComputerAPI.getAll()
-          .then(computers => (newState.computers = computers))
-          .then(() => this.setState(newState));
+        EmployeeAPIManager.getAllEmployees()
+        .then(response => (newState.employees = response))
+        .then(ComputerAPI.getAll)
+        .then(computers => (newState.computers = computers))
+        .then(() => this.setState(newState))
       }
       addComputer = computerObject =>
       ComputerAPI.postComputer(computerObject)
@@ -31,6 +37,29 @@ class ApplicationViews extends Component {
           })
         );
 
+
+
+
+    addNewEmployee = (employeeObject)=> {
+        const newState={};
+        EmployeeAPIManager.postNewEmployee(employeeObject)
+        .then(()=>
+            EmployeeAPIManager.getAllEmployees()
+        ).then(response=> {
+            newState.employees = response
+            this.setState(newState);
+        })
+    }
+    editEmployee = (employeeObject) => {
+        const newState = {};
+        EmployeeAPIManager.updateEmployee(employeeObject)
+        .then(()=> EmployeeAPIManager.getAllEmployees())
+        .then(response => {
+            newState.employees = response;
+            this.setState(newState);
+        })
+
+    }
     updateComputer = editedComputerObject => {
       return ComputerAPI.put(editedComputerObject)
         .then(() => ComputerAPI.getAll())
@@ -45,12 +74,21 @@ class ApplicationViews extends Component {
         return (
             <React.Fragment>
                 <Route exact path="/" render={(props) => {
-                    return <EmployeePage employees={this.state.employees} />
+                    return <EmployeePage {...props} employees={this.state.employees} />
+                }} />
+                <Route exact path="/employees/new" render={(props) => {
+                    return <NewEmployeeForm employees = {this.state.employees} addNewEmployee={this.addNewEmployee} {...props}/>
                 }} />
                 <Route exact path="/computers" render={(props) => {
                     return <ComputerPage {...props}
                     updateComputer={this.updateComputer}
                     computers={this.state.computers} />
+                }} />
+                <Route exact path="/employees/:employeeId(\d+)/edit" render={(props) => {
+                    return <EmployeeEditForm employees={this.state.employees} {...props} editEmployee={this.editEmployee}/>
+                }}/>
+                <Route path="/computers" render={(props) => {
+                    return <ComputerPage computers={this.state.computers} />
                 }} />
                 <Route exact path="/computers/new" render={props => {
             return <ComputerForm {...props}
