@@ -1,3 +1,7 @@
+//******************************************************************************//
+// This creates employee cards
+//By Sable Bowen
+//******************************************************************************//
 import React, {Component} from "react";
 import "bootstrap/dist/css/bootstrap.min.css"
 

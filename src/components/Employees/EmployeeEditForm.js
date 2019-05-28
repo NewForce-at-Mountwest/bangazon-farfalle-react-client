@@ -1,3 +1,8 @@
+//******************************************************************************//
+// This page allows you to edit employees
+//By Sable Bowen
+//******************************************************************************//
+
 import React, {Component} from "react";
 import EmployeeAPIManager from "../../modules/EmployeeAPIManger";
 

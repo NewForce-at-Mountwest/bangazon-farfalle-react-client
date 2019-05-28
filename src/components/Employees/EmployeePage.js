@@ -1,3 +1,7 @@
+//******************************************************************************//
+// This is the main landing page for the REACT app that shows employees cards
+//By Sable Bowen
+//******************************************************************************//
 import React, { Component } from 'react'
 import EmployeeCard from "./EmployeeCard"
 
